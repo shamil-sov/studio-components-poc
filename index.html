@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BandLab Post Viewer</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121933;
+      --panel-2: #182142;
+      --text: #eef2ff;
+      --muted: #a8b0d3;
+      --accent: #7aa2ff;
+      --border: #29345f;
+      --ok: #34d399;
+      --warn: #fbbf24;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: linear-gradient(180deg, #0b1020 0%, #121933 100%);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .topbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .url-input {
+      flex: 1 1 700px;
+      min-width: 280px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      outline: none;
+    }
+
+    .button {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .button.secondary {
+      background: var(--panel);
+      color: var(--text);
+    }
+
+    .status {
+      margin-bottom: 16px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: rgba(18, 25, 51, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+      margin-bottom: 16px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .meta-item {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .creator {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: #0f172a;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(122, 162, 255, 0.15);
+      border: 1px solid rgba(122, 162, 255, 0.35);
+      color: #dbe7ff;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+
+    .caption {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .list-item {
+      padding: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      border-radius: 14px;
+    }
+
+    .thumb {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 10px;
+      background: #0f172a;
+    }
+
+    .audio {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .linkbox {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      border-radius: 14px;
+      padding: 14px;
+      transition: transform 0.15s ease;
+    }
+
+    .linkbox:hover {
+      transform: translateY(-1px);
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .json-box {
+      background: #09101f;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      overflow: auto;
+      max-height: 420px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      color: #d5dcff;
+      white-space: pre-wrap;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .section-subtitle {
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>BandLab Post Viewer</h1>
+    <p style="margin: 8px 0 18px 0;">Small static frontend for testing a post endpoint from GitHub Pages or any static host.</p>
+
+    <div class="topbar">
+      <input
+        id="endpointInput"
+        class="url-input"
+        type="text"
+        value="https://bl-uat-fn-social-posts-proxy.azurewebsites.net/api/posts/2c08b918-a0a0-f011-8e63-6045bd1f4745"
+      />
+      <button class="button" id="loadBtn">Load post</button>
+      <button class="button secondary" id="sampleBtn">Use sample data</button>
+    </div>
+
+    <div class="status" id="status">Ready.</div>
+
+    <div class="grid">
+      <div>
+        <div id="main"></div>
+      </div>
+      <div>
+        <div id="side"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sampleData = {
+      "action": "None",
+      "afterForComments": null,
+      "backgroundId": null,
+      "canChangePinState": false,
+      "canComment": false,
+      "canDelete": false,
+      "canEdit": false,
+      "canPin": false,
+      "caption": "Testint revision link respost\\r\\n\\r\\nhttps://test.bandlab.com/post/abc53735-4f8d-f011-b3cd-6045bd21ef76",
+      "channelId": "2c08b918-a0a0-f011-8e63-6045bd1f4745",
+      "clientId": "BandLab-Web",
+      "comments": [],
+      "counters": { "comments": 0, "likes": 0, "reactions": 0 },
+      "createdOn": "2025-10-03T21:29:52Z",
+      "creator": {
+        "collaborationStatus": "Ready",
+        "followingState": "None",
+        "id": "71ce2539-0201-466b-a393-a5eac04a0945",
+        "isFollower": false,
+        "isTippable": true,
+        "isVerified": false,
+        "name": "Gordon | 34444",
+        "picture": {
+          "isDefault": false,
+          "url": "https://bl-uat-images.azureedge.net/v1.0/users/c287cf41-fb1c-4eb0-92c0-264930eec7ed/"
+        },
+        "username": "gordon_l"
+      },
+      "id": "2c08b918-a0a0-f011-8e63-6045bd1f4745",
+      "initiatorReaction": null,
+      "isBoosted": false,
+      "isCommentingAllowed": false,
+      "isExclusive": false,
+      "isExplicit": false,
+      "isLiked": false,
+      "isPinned": false,
+      "isPostedAsBand": false,
+      "link": {
+        "description": null,
+        "image": null,
+        "title": "Internal BandLab Link (Test)",
+        "url": "https://test.bandlab.com/post/abc53735-4f8d-f011-b3cd-6045bd21ef76"
+      },
+      "linkEntity": {
+        "album": null,
+        "beat": null,
+        "revisionPost": {
+          "caption": null,
+          "counters": { "comments": 0, "likes": 3 },
+          "creator": {
+            "collaborationStatus": "Ready",
+            "followingState": "None",
+            "id": "e4112f61-fbcd-4ac0-a452-8e22a905ec6b",
+            "isFollower": false,
+            "isTippable": false,
+            "isVerified": false,
+            "name": "Meow",
+            "picture": {
+              "isDefault": false,
+              "url": "https://bl-uat-images.azureedge.net/v1.0/users/05179095-1314-4f99-8dac-9825937513df/"
+            },
+            "username": "neko"
+          },
+          "id": "abc53735-4f8d-f011-b3cd-6045bd21ef76",
+          "isExplicit": false,
+          "isLiked": false,
+          "revision": {
+            "canEdit": false,
+            "canEditSettings": null,
+            "canMaster": false,
+            "canPublish": false,
+            "counters": { "comments": 0, "forks": 0, "likes": 0, "plays": 179 },
+            "createdOn": "2025-09-09T07:32:59Z",
+            "creator": {
+              "collaborationStatus": "Ready",
+              "followingState": "None",
+              "id": "e4112f61-fbcd-4ac0-a452-8e22a905ec6b",
+              "isFollower": false,
+              "isTippable": false,
+              "isVerified": false,
+              "name": "Meow",
+              "picture": {
+                "isDefault": false,
+                "url": "https://bl-uat-images.azureedge.net/v1.0/users/05179095-1314-4f99-8dac-9825937513df/"
+              },
+              "username": "neko"
+            },
+            "description": null,
+            "genres": [{ "id": "pop", "name": "Pop" }],
+            "id": "aac53735-4f8d-f011-b3cd-6045bd21ef76",
+            "isFork": false,
+            "isLiked": false,
+            "isPublic": true,
+            "lyrics": null,
+            "mastering": null,
+            "mixdown": {
+              "duration": 44.8,
+              "file": "https://static-test.bandlab.com/revisions-formatted/6f7aaf58-335b-a3d6-ab73-c1ee233ec176/6f7aaf58-335b-a3d6-ab73-c1ee233ec176.m4a",
+              "id": "6f7aaf58-335b-a3d6-ab73-c1ee233ec176",
+              "status": "Ready",
+              "waveform": "https://static-test.bandlab.com/revisions-formatted/6f7aaf58-335b-a3d6-ab73-c1ee233ec176/6f7aaf58-335b-a3d6-ab73-c1ee233ec176.json"
+            },
+            "parentId": null,
+            "place": null,
+            "song": {
+              "author": {
+                "conversationId": null,
+                "id": "e4112f61-fbcd-4ac0-a452-8e22a905ec6b",
+                "name": "Meow",
+                "type": "User",
+                "username": "neko"
+              },
+              "counters": {
+                "collaborators": 0,
+                "comments": 0,
+                "forks": 0,
+                "likes": 0,
+                "plays": 0,
+                "publicRevisions": 0
+              },
+              "id": "a9c53735-4f8d-f011-b3cd-6045bd21ef76",
+              "isFork": false,
+              "isForkable": false,
+              "name": "Retro Cassette (All-In-One) - Moody - Sep 9, 2025, 3:32 PM",
+              "originalSongId": null,
+              "picture": {
+                "adjustedColor": null,
+                "adjustedColorLValue": null,
+                "color": "#E1DDDA",
+                "isDefault": false,
+                "url": "https://bl-uat-images.azureedge.net/v1.0/users/05179095-1314-4f99-8dac-9825937513df/"
+              },
+              "slug": "retro-cassette-all-in-one-moody-sep-9-2025-332-pm-056d46c7"
+            },
+            "spatialMixdown": null,
+            "tags": []
+          },
+          "state": "Public",
+          "type": "Revision"
+        },
+        "type": "RevisionPost"
+      },
+      "message": "<user>Gordon | 34444</user> shared a link",
+      "permissions": { "comment": false, "seeExclusive": false },
+      "postCompositeId": "71ce25390201466ba393a5eac04a0945_2c08b918a0a0f0118e636045bd1f4745",
+      "reactions": [{ "count": 1, "reaction": "❤️" }],
+      "state": "Public",
+      "type": "Link"
+    };
+
+    const main = document.getElementById('main');
+    const side = document.getElementById('side');
+    const statusEl = document.getElementById('status');
+    const endpointInput = document.getElementById('endpointInput');
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function formatDate(value) {
+      if (!value) return '—';
+      try {
+        return new Date(value).toLocaleString();
+      } catch {
+        return value;
+      }
+    }
+
+    function yesNo(value) {
+      return value ? 'Yes' : 'No';
+    }
+
+    function renderMetaItem(label, value) {
+      return `
+        <div class="meta-item">
+          <span class="label">${escapeHtml(label)}</span>
+          <div class="value">${escapeHtml(value ?? '—')}</div>
+        </div>
+      `;
+    }
+
+    function renderCreator(creator, title = 'Creator') {
+      if (!creator) return '';
+      return `
+        <div class="card">
+          <h2>${escapeHtml(title)}</h2>
+          <div class="creator">
+            <img class="avatar" src="${escapeHtml(creator.picture?.url || '')}" alt="${escapeHtml(creator.name || 'avatar')}" />
+            <div>
+              <div style="font-size: 18px; font-weight: 700;">${escapeHtml(creator.name || 'Unknown')}</div>
+              <div class="small">@${escapeHtml(creator.username || '—')}</div>
+              <div class="pill-row">
+                ${creator.isVerified ? '<span class="pill">Verified</span>' : ''}
+                <span class="pill">Tippable: ${escapeHtml(yesNo(creator.isTippable))}</span>
+                <span class="pill">Follower: ${escapeHtml(yesNo(creator.isFollower))}</span>
+                <span class="pill">Status: ${escapeHtml(creator.collaborationStatus || '—')}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderReactions(reactions) {
+      if (!reactions?.length) {
+        return `<div class="card"><h2>Reactions</h2><p>No reactions</p></div>`;
+      }
+
+      return `
+        <div class="card">
+          <h2>Reactions</h2>
+          <div class="pill-row">
+            ${reactions.map(r => `<span class="pill">${escapeHtml(r.reaction)} ${escapeHtml(r.count)}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderLink(link) {
+      if (!link) return '';
+      return `
+        <div class="card">
+          <h2>Shared Link</h2>
+          <a class="linkbox" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
+            <div style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">${escapeHtml(link.title || 'Untitled link')}</div>
+            <div class="small">${escapeHtml(link.url || '')}</div>
+            ${link.description ? `<p style="margin-top: 10px;">${escapeHtml(link.description)}</p>` : ''}
+            ${link.image ? `<img class="thumb" src="${escapeHtml(link.image)}" alt="Link image" />` : ''}
+          </a>
+        </div>
+      `;
+    }
+
+    function renderRevisionPost(revisionPost) {
+      if (!revisionPost) return '';
+      const revision = revisionPost.revision || {};
+      const song = revision.song || {};
+      const mixdown = revision.mixdown || {};
+
+      return `
+        <div class="card">
+          <h2>Linked Revision Post</h2>
+          <div class="section-subtitle">This is the richer entity extracted from the shared internal link.</div>
+
+          <div class="list">
+            <div class="list-item">
+              <div class="label">Revision post ID</div>
+              <div class="value">${escapeHtml(revisionPost.id)}</div>
+            </div>
+
+            <div class="list-item">
+              <div class="label">Song name</div>
+              <div class="value">${escapeHtml(song.name || '—')}</div>
+            </div>
+
+            <div class="list-item">
+              <div class="label">Revision created on</div>
+              <div class="value">${escapeHtml(formatDate(revision.createdOn))}</div>
+            </div>
+
+            <div class="list-item">
+              <div class="label">Genres</div>
+              <div class="value">${revision.genres?.map(g => g.name).join(', ') || '—'}</div>
+            </div>
+
+            <div class="list-item">
+              <div class="label">Counters</div>
+              <div class="value">
+                Plays: ${escapeHtml(revision.counters?.plays ?? 0)} ·
+                Likes: ${escapeHtml(revision.counters?.likes ?? 0)} ·
+                Forks: ${escapeHtml(revision.counters?.forks ?? 0)} ·
+                Comments: ${escapeHtml(revision.counters?.comments ?? 0)}
+              </div>
+            </div>
+
+            <div class="list-item">
+              <div class="label">Mixdown</div>
+              <div class="value">
+                Status: ${escapeHtml(mixdown.status || '—')} ·
+                Duration: ${escapeHtml(mixdown.duration ?? '—')} sec
+              </div>
+              ${mixdown.file ? `<audio class="audio" controls src="${escapeHtml(mixdown.file)}"></audio>` : ''}
+            </div>
+          </div>
+        </div>
+
+        ${renderCreator(revisionPost.creator, 'Revision Post Creator')}
+        ${renderCreator(revision.creator, 'Revision Creator')}
+      `;
+    }
+
+    function renderPost(data) {
+      const revisionPost = data.linkEntity?.revisionPost;
+
+      main.innerHTML = `
+        <div class="card">
+          <h2>Post Overview</h2>
+          <div class="meta-grid">
+            ${renderMetaItem('Post ID', data.id)}
+            ${renderMetaItem('Type', data.type)}
+            ${renderMetaItem('State', data.state)}
+            ${renderMetaItem('Action', data.action)}
+            ${renderMetaItem('Created On', formatDate(data.createdOn))}
+            ${renderMetaItem('Client', data.clientId)}
+            ${renderMetaItem('Channel ID', data.channelId)}
+            ${renderMetaItem('Posted as Band', yesNo(data.isPostedAsBand))}
+            ${renderMetaItem('Pinned', yesNo(data.isPinned))}
+            ${renderMetaItem('Explicit', yesNo(data.isExplicit))}
+            ${renderMetaItem('Can Comment', yesNo(data.canComment))}
+            ${renderMetaItem('Can Edit', yesNo(data.canEdit))}
+          </div>
+        </div>
+
+        ${renderCreator(data.creator)}
+
+        <div class="card">
+          <h2>Caption</h2>
+          <div class="caption">${escapeHtml(data.caption || '—')}</div>
+        </div>
+
+        ${renderLink(data.link)}
+        ${renderRevisionPost(revisionPost)}
+      `;
+
+      side.innerHTML = `
+        <div class="card">
+          <h2>Post Counters</h2>
+          <div class="meta-grid">
+            ${renderMetaItem('Comments', data.counters?.comments ?? 0)}
+            ${renderMetaItem('Likes', data.counters?.likes ?? 0)}
+            ${renderMetaItem('Reactions', data.counters?.reactions ?? 0)}
+          </div>
+        </div>
+
+        ${renderReactions(data.reactions)}
+
+        <div class="card">
+          <h2>Permissions</h2>
+          <div class="pill-row">
+            <span class="pill">Comment: ${escapeHtml(yesNo(data.permissions?.comment))}</span>
+            <span class="pill">See Exclusive: ${escapeHtml(yesNo(data.permissions?.seeExclusive))}</span>
+            <span class="pill">Commenting Allowed: ${escapeHtml(yesNo(data.isCommentingAllowed))}</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Debug JSON</h2>
+          <div class="section-subtitle">Useful while testing backend payload shape.</div>
+          <div class="json-box">${escapeHtml(JSON.stringify(data, null, 2))}</div>
+        </div>
+      `;
+    }
+
+    async function loadFromEndpoint() {
+      const url = endpointInput.value.trim();
+      if (!url) {
+        statusEl.innerHTML = '<span class="warn">Enter an endpoint URL first.</span>';
+        return;
+      }
+
+      statusEl.textContent = 'Loading...';
+      main.innerHTML = '';
+      side.innerHTML = '';
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        renderPost(data);
+        statusEl.innerHTML = '<span class="ok">Loaded successfully.</span>';
+      } catch (error) {
+        console.error(error);
+        statusEl.innerHTML = `<span class="warn">Failed to load endpoint.</span> ${escapeHtml(error.message)}. This is often a CORS issue when the page is hosted separately from the API.`;
+      }
+    }
+
+    function loadSample() {
+      renderPost(sampleData);
+      statusEl.innerHTML = '<span class="ok">Loaded sample data.</span>';
+    }
+
+    document.getElementById('loadBtn').addEventListener('click', loadFromEndpoint);
+    document.getElementById('sampleBtn').addEventListener('click', loadSample);
+
+    loadSample();
+  </script>
+</body>
+</html>
