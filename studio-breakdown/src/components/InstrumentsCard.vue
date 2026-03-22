@@ -21,30 +21,28 @@ const typeIcons: Record<string, string> = {
       Instruments
       <v-chip class="ml-2" color="secondary" size="x-small">{{ instruments.length }}</v-chip>
     </v-card-title>
-    <v-card-text>
-      <v-row>
-        <v-col
+    <v-card-text class="pa-0">
+      <v-list lines="two" density="comfortable">
+        <v-list-item
           v-for="inst in instruments"
           :key="inst.type"
-          cols="6"
-          sm="4"
-          md="3"
         >
-          <v-card variant="outlined" class="text-center pa-3" height="100%">
-            <v-avatar size="48" class="mb-2" color="surface-variant">
+          <template #prepend>
+            <v-avatar size="40" color="surface-variant" class="mr-3">
               <v-img v-if="inst.imageUrl" :src="inst.imageUrl" :alt="inst.name" />
               <v-icon v-else>{{ typeIcons[inst.type] || 'mdi-music' }}</v-icon>
             </v-avatar>
-            <div class="text-body-2 font-weight-medium">{{ inst.name }}</div>
-            <v-chip size="x-small" variant="tonal" color="info" class="mt-1">
-              {{ inst.type }}
-            </v-chip>
-            <div v-if="inst.soundbankSlug" class="text-caption text-medium-emphasis mt-1">
-              {{ inst.soundbankSlug }}
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
+          </template>
+          <v-list-item-title class="font-weight-medium">{{ inst.name }}</v-list-item-title>
+          <v-list-item-subtitle>
+            {{ inst.type }}
+            <span v-if="inst.soundbankSlug"> · {{ inst.soundbankSlug }}</span>
+          </v-list-item-subtitle>
+          <template #append>
+            <v-chip size="x-small" variant="tonal" color="info">{{ inst.type }}</v-chip>
+          </template>
+        </v-list-item>
+      </v-list>
     </v-card-text>
   </v-card>
 </template>

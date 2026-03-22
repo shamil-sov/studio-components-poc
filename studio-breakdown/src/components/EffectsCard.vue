@@ -11,39 +11,34 @@ defineProps<{ effects: Effect[] }>()
       Effects
       <v-chip class="ml-2" color="warning" size="x-small">{{ effects.length }}</v-chip>
     </v-card-title>
-    <v-card-text>
-      <v-row>
-        <v-col
+    <v-card-text class="pa-0">
+      <v-list lines="two" density="comfortable">
+        <v-list-item
           v-for="effect in effects"
           :key="effect.slug"
-          cols="6"
-          sm="4"
-          md="3"
-          lg="2"
         >
-          <v-card variant="outlined" class="text-center pa-3" height="100%">
-            <v-img
-              v-if="effect.imageUrl"
-              :src="effect.imageUrl"
-              :alt="effect.name"
-              height="64"
-              class="rounded mb-2 mx-auto"
-              contain
-            />
-            <div class="text-body-2 font-weight-medium">{{ effect.name }}</div>
+          <template #prepend>
+            <v-avatar size="40" rounded="lg" color="surface-variant" class="mr-3">
+              <v-img v-if="effect.imageUrl" :src="effect.imageUrl" :alt="effect.name" />
+              <v-icon v-else>mdi-tune-variant</v-icon>
+            </v-avatar>
+          </template>
+          <v-list-item-title class="font-weight-medium">
+            {{ effect.name }}
             <v-chip
               v-if="effect.isMembershipOnly"
               size="x-small"
               color="warning"
               variant="tonal"
               prepend-icon="mdi-star"
-              class="mt-1"
+              class="ml-2"
             >
-              Members
+              Premium
             </v-chip>
-          </v-card>
-        </v-col>
-      </v-row>
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ effect.slug }}</v-list-item-subtitle>
+        </v-list-item>
+      </v-list>
     </v-card-text>
   </v-card>
 </template>

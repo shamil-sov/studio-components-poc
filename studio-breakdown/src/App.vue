@@ -12,7 +12,7 @@ import { RouterView } from 'vue-router'
     </v-app-bar>
 
     <v-main>
-      <v-container fluid class="pa-4 pa-md-6" style="max-width: 1400px;">
+      <v-container class="pa-4 pa-md-6" style="max-width: 860px;">
         <RouterView />
       </v-container>
     </v-main>

@@ -11,32 +11,20 @@ defineProps<{ breakdown: StudioBreakdown }>()
       Track Overview
     </v-card-title>
     <v-card-text>
-      <v-row>
-        <v-col cols="6" sm="3">
-          <v-card variant="tonal" color="primary" class="text-center pa-4">
-            <div class="text-h4 font-weight-bold">{{ breakdown.bpm }}</div>
-            <div class="text-caption text-uppercase">BPM</div>
-          </v-card>
-        </v-col>
-        <v-col cols="6" sm="3">
-          <v-card variant="tonal" color="secondary" class="text-center pa-4">
-            <div class="text-h4 font-weight-bold">{{ breakdown.key }}</div>
-            <div class="text-caption text-uppercase">Key</div>
-          </v-card>
-        </v-col>
-        <v-col cols="6" sm="3">
-          <v-card variant="tonal" color="info" class="text-center pa-4">
-            <div class="text-h4 font-weight-bold">{{ breakdown.timeSignature }}</div>
-            <div class="text-caption text-uppercase">Time Sig</div>
-          </v-card>
-        </v-col>
-        <v-col cols="6" sm="3">
-          <v-card variant="tonal" color="success" class="text-center pa-4">
-            <div class="text-h4 font-weight-bold">{{ breakdown.trackCount }}</div>
-            <div class="text-caption text-uppercase">Tracks</div>
-          </v-card>
-        </v-col>
-      </v-row>
+      <div class="d-flex flex-wrap ga-4">
+        <v-chip color="primary" variant="tonal" size="large" prepend-icon="mdi-metronome">
+          {{ breakdown.bpm }} BPM
+        </v-chip>
+        <v-chip color="secondary" variant="tonal" size="large" prepend-icon="mdi-music-clef-treble">
+          Key: {{ breakdown.key }}
+        </v-chip>
+        <v-chip color="info" variant="tonal" size="large" prepend-icon="mdi-timer-outline">
+          {{ breakdown.timeSignature }}
+        </v-chip>
+        <v-chip color="success" variant="tonal" size="large" prepend-icon="mdi-music-note-plus">
+          {{ breakdown.trackCount }} Tracks
+        </v-chip>
+      </div>
     </v-card-text>
   </v-card>
 </template>
