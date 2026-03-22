@@ -4,19 +4,19 @@ import { createVuetify } from 'vuetify'
 
 export default createVuetify({
   theme: {
-    defaultTheme: 'dark',
+    defaultTheme: 'light',
     themes: {
-      dark: {
+      light: {
         colors: {
-          background: '#0b1020',
-          surface: '#121933',
-          'surface-variant': '#182142',
-          primary: '#7aa2ff',
-          secondary: '#a78bfa',
-          success: '#34d399',
-          warning: '#fbbf24',
-          error: '#f87171',
-          info: '#38bdf8',
+          background: '#f5f7fa',
+          surface: '#ffffff',
+          'surface-variant': '#eef1f6',
+          primary: '#4a76d4',
+          secondary: '#7c5cbf',
+          success: '#2a9d6e',
+          warning: '#d4920a',
+          error: '#d64545',
+          info: '#2b8fcf',
         },
       },
     },

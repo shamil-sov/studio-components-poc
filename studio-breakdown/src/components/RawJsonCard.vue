@@ -12,7 +12,7 @@ defineProps<{ breakdown: StudioBreakdown }>()
     </v-card-title>
     <v-card-text>
       <v-sheet
-        color="grey-darken-4"
+        color="grey-lighten-4"
         rounded="lg"
         class="pa-4 overflow-auto"
         style="max-height: 400px; font-family: monospace; font-size: 12px; white-space: pre-wrap;"
