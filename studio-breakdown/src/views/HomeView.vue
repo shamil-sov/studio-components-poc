@@ -6,10 +6,11 @@ import InstrumentsCard from '@/components/InstrumentsCard.vue'
 import EffectsCard from '@/components/EffectsCard.vue'
 import EffectPresetsCard from '@/components/EffectPresetsCard.vue'
 import MasteringCard from '@/components/MasteringCard.vue'
+import AutoPitchCard from '@/components/AutoPitchCard.vue'
 import PacksCard from '@/components/PacksCard.vue'
 import RawJsonCard from '@/components/RawJsonCard.vue'
 
-const trackUrl = ref('https://test.bandlab.com/track/3dbf24ed-6423-4cd3-a62e-9f28426dd988?revId=a5a3ec90-b241-4316-b05c-332ce2ef205b')
+const trackUrl = ref('https://test.bandlab.com/track/c1734997-88d7-439d-9b6a-c9cd0133ab1c?revId=7f0083e1-d2de-4b1f-b1d4-2097f6ee099b')
 
 const { breakdown, loading, error, parsedRevisionId, fetchBreakdown, loadSample } = useBreakdown()
 
@@ -93,9 +94,9 @@ function handleLoad() {
     <EffectsCard :effects="breakdown.effects" />
     <EffectPresetsCard :presets="breakdown.effectPresets" />
     <MasteringCard :mastering="breakdown.mastering" />
+    <AutoPitchCard :auto-pitches="breakdown.autoPitches" />
     <PacksCard
       :loop-packs="breakdown.loopPacks"
-      :auto-pitches="breakdown.autoPitches"
       :sampler-kits="breakdown.samplerKits"
     />
     <RawJsonCard :breakdown="breakdown" />

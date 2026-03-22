@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { LoopPack, AutoPitch, SamplerKit } from '@/types/breakdown'
+import type { LoopPack, SamplerKit } from '@/types/breakdown'
 
 defineProps<{
   loopPacks: LoopPack[]
-  autoPitches: AutoPitch[]
   samplerKits: SamplerKit[]
 }>()
 </script>
@@ -30,26 +29,6 @@ defineProps<{
             prepend-icon="mdi-music-box-multiple"
           >
             {{ pack.name }}
-          </v-chip>
-        </div>
-        <div v-else class="text-caption text-medium-emphasis">None</div>
-      </div>
-
-      <!-- Auto Pitches -->
-      <div class="mb-4">
-        <div class="text-overline text-medium-emphasis mb-2">
-          Auto Pitches
-          <v-chip size="x-small" class="ml-1">{{ autoPitches.length }}</v-chip>
-        </div>
-        <div v-if="autoPitches.length" class="d-flex flex-wrap ga-2">
-          <v-chip
-            v-for="pitch in autoPitches"
-            :key="pitch.slug"
-            color="secondary"
-            variant="tonal"
-            prepend-icon="mdi-waveform"
-          >
-            {{ pitch.name }}
           </v-chip>
         </div>
         <div v-else class="text-caption text-medium-emphasis">None</div>

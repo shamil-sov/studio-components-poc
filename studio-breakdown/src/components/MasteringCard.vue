@@ -17,7 +17,19 @@ defineProps<{ mastering: Mastering | null }>()
             <v-img :src="mastering.imageUrl" :alt="mastering.name" />
           </v-avatar>
           <div>
-            <div class="text-h6">{{ mastering.name }}</div>
+            <div class="text-h6">
+              {{ mastering.name }}
+              <v-chip
+                v-if="mastering.isMembershipOnly"
+                size="x-small"
+                color="warning"
+                variant="tonal"
+                prepend-icon="mdi-star"
+                class="ml-2"
+              >
+                Premium
+              </v-chip>
+            </div>
             <div class="text-caption text-medium-emphasis">{{ mastering.slug }}</div>
           </div>
         </div>

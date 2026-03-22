@@ -1,6 +1,7 @@
 export interface AutoPitch {
   name: string
   slug: string
+  isMembershipOnly?: boolean
 }
 
 export interface EffectPreset {
@@ -33,6 +34,7 @@ export interface Mastering {
   intensity: number
   name: string
   slug: string
+  isMembershipOnly?: boolean
 }
 
 export interface SamplerKit {
