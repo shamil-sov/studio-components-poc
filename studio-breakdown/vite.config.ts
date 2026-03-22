@@ -6,7 +6,7 @@ import vuetify from 'vite-plugin-vuetify'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/studio-components-poc/studio-breakdown/',
+  base: '/studio-components-poc/',
   plugins: [
     vue(),
     vuetify({ autoImport: true }),
