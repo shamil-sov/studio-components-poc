@@ -2,8 +2,8 @@ import { ref } from 'vue'
 import type { StudioBreakdown, ApiResponse } from '@/types/breakdown'
 import { sampleData } from '@/data/sample'
 
-// TODO: Replace with your actual API base URL
-const API_BASE_URL = 'http://localhost:7071/api'
+// UAT API endpoint
+const API_BASE_URL = 'https://bl-uat-fn-social-posts-proxy.azurewebsites.net/api'
 
 export function useBreakdown() {
   const breakdown = ref<StudioBreakdown | null>(null)
