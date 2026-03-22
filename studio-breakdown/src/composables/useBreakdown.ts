@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import type { StudioBreakdown, ApiResponse } from '@/types/breakdown'
+import type { StudioBreakdown } from '@/types/breakdown'
 import { sampleData } from '@/data/sample'
 
 // UAT API endpoint
@@ -38,8 +38,8 @@ export function useBreakdown() {
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
-      const data: ApiResponse = await response.json()
-      breakdown.value = data.breakdown
+      const data: StudioBreakdown = await response.json()
+      breakdown.value = data
     } catch (e: any) {
       error.value = `Failed to fetch breakdown: ${e.message}. This may be a CORS issue.`
     } finally {
