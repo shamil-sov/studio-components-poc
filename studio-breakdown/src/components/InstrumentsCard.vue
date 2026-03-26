@@ -28,7 +28,7 @@ const typeIcons: Record<string, string> = {
           :key="inst.type"
         >
           <template #prepend>
-            <v-avatar size="40" color="surface-variant" class="mr-3">
+            <v-avatar size="40" rounded="lg" color="surface-variant" class="mr-3">
               <v-img v-if="inst.imageUrl" :src="inst.imageUrl" :alt="inst.name" />
               <v-icon v-else>{{ typeIcons[inst.type] || 'mdi-music' }}</v-icon>
             </v-avatar>

@@ -5,8 +5,10 @@ import TrackOverview from '@/components/TrackOverview.vue'
 import InstrumentsCard from '@/components/InstrumentsCard.vue'
 import EffectsCard from '@/components/EffectsCard.vue'
 import EffectPresetsCard from '@/components/EffectPresetsCard.vue'
+import EffectPresets2Card from '@/components/EffectPresets2Card.vue'
 import MasteringCard from '@/components/MasteringCard.vue'
 import AutoPitchCard from '@/components/AutoPitchCard.vue'
+import AutoPitch2Card from '@/components/AutoPitch2Card.vue'
 import PacksCard from '@/components/PacksCard.vue'
 import RawJsonCard from '@/components/RawJsonCard.vue'
 
@@ -93,8 +95,10 @@ function handleLoad() {
     <InstrumentsCard :instruments="breakdown.instruments" />
     <EffectsCard :effects="breakdown.effects" />
     <EffectPresetsCard :presets="breakdown.effectPresets" />
+    <EffectPresets2Card v-if="breakdown.effectPresets2?.length" :presets="breakdown.effectPresets2" />
     <MasteringCard :mastering="breakdown.mastering" />
     <AutoPitchCard :auto-pitches="breakdown.autoPitches" />
+    <AutoPitch2Card v-if="breakdown.autoPitches2?.length" :auto-pitches="breakdown.autoPitches2" />
     <PacksCard
       :loop-packs="breakdown.loopPacks"
       :sampler-kits="breakdown.samplerKits"
