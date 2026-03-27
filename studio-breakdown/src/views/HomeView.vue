@@ -93,8 +93,8 @@ function handleLoad() {
   <!-- Breakdown content -->
   <template v-if="breakdown && !loading">
     <TrackOverview :breakdown="breakdown" />
-    <InstrumentsCard :instruments="breakdown.instruments" />
     <BeatsCard :beats="breakdown.beats ?? []" />
+    <InstrumentsCard :instruments="breakdown.instruments" />
     <EffectsCard :effects="breakdown.effects" />
     <EffectPresetsCard :presets="breakdown.effectPresets" />
     <EffectPresets2Card v-if="breakdown.effectPresets2?.length" :presets="breakdown.effectPresets2" />

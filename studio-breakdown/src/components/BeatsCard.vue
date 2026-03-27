@@ -22,7 +22,8 @@ function formatDuration(seconds: number): string {
         <v-card
           v-for="beat in beats"
           :key="beat.id"
-          variant="outlined"
+          variant="flat"
+          color="surface-variant"
           rounded="lg"
           class="overflow-hidden"
         >
