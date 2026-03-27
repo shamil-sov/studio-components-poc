@@ -17,54 +17,68 @@ function formatDuration(seconds: number): string {
       Beats
       <v-chip class="ml-2" color="error" size="x-small">{{ beats.length }}</v-chip>
     </v-card-title>
-    <v-card-text class="pa-0">
-      <v-list v-if="beats.length" lines="three" density="comfortable">
-        <template v-for="(beat, index) in beats" :key="beat.id">
-          <v-divider v-if="index > 0" />
-          <v-list-item>
-            <template #prepend>
-              <v-avatar size="56" rounded="lg" class="mr-3" :style="{ backgroundColor: beat.picture?.color || '#ccc' }">
-                <v-img v-if="beat.picture?.s" :src="beat.picture.s" :alt="beat.name" cover />
-                <v-icon v-else>mdi-music-box</v-icon>
-              </v-avatar>
-            </template>
+    <v-card-text>
+      <div v-if="beats.length" class="d-flex flex-column ga-4">
+        <v-card
+          v-for="beat in beats"
+          :key="beat.id"
+          variant="outlined"
+          rounded="lg"
+          class="overflow-hidden"
+        >
+          <div class="d-flex">
+            <!-- Album art -->
+            <v-avatar
+              size="120"
+              rounded="0"
+              :style="{ backgroundColor: beat.picture?.color || '#eee', minWidth: '120px' }"
+            >
+              <v-img v-if="beat.picture?.m" :src="beat.picture.m" :alt="beat.name" cover />
+              <v-icon v-else size="48" color="grey">mdi-music-box</v-icon>
+            </v-avatar>
 
-            <v-list-item-title class="font-weight-medium">
-              {{ beat.name }}
-            </v-list-item-title>
+            <!-- Details -->
+            <div class="pa-3 d-flex flex-column" style="min-width: 0;">
+              <div class="text-subtitle-1 font-weight-bold text-truncate">{{ beat.name }}</div>
+              <div class="text-body-2 text-medium-emphasis">
+                by <strong>{{ beat.creatorName }}</strong>
+              </div>
 
-            <v-list-item-subtitle>
-              <a :href="`https://test.bandlab.com/beats/${beat.id}`" target="_blank" class="text-primary">Open beat ↗</a>
-            </v-list-item-subtitle>
+              <div class="d-flex flex-wrap ga-2 mt-2">
+                <v-chip v-if="beat.genre" size="small" variant="tonal" color="error" prepend-icon="mdi-music-note">
+                  {{ beat.genre }}
+                </v-chip>
+                <v-chip v-if="beat.key" size="small" variant="tonal" color="secondary" prepend-icon="mdi-music-clef-treble">
+                  {{ beat.key }}
+                </v-chip>
+                <v-chip size="small" variant="tonal" color="primary" prepend-icon="mdi-metronome">
+                  {{ beat.bpm }} BPM
+                </v-chip>
+                <v-chip size="small" variant="tonal" color="info" prepend-icon="mdi-timer-outline">
+                  {{ formatDuration(beat.duration) }}
+                </v-chip>
+              </div>
 
-            <v-list-item-subtitle>
-              By <strong>{{ beat.creatorName }}</strong>
-            </v-list-item-subtitle>
-
-            <v-list-item-subtitle v-if="beat.genre">
-              Genre: <strong>{{ beat.genre }}</strong>
-            </v-list-item-subtitle>
-
-            <v-list-item-subtitle v-if="beat.key">
-              Key: <strong>{{ beat.key }}</strong>
-            </v-list-item-subtitle>
-
-            <v-list-item-subtitle>
-              BPM: <strong>{{ beat.bpm }}</strong>
-            </v-list-item-subtitle>
-
-            <v-list-item-subtitle>
-              Duration: <strong>{{ formatDuration(beat.duration) }}</strong>
-            </v-list-item-subtitle>
-
-            <!-- Audio preview -->
-            <div v-if="beat.audioPreviewUrl" class="mt-2">
-              <audio controls preload="none" :src="beat.audioPreviewUrl" style="width: 100%; height: 32px;" />
+              <div class="mt-2">
+                <a
+                  :href="`https://test.bandlab.com/beats/${beat.id}`"
+                  target="_blank"
+                  class="text-primary text-caption font-weight-medium"
+                  style="text-decoration: none;"
+                >
+                  Open beat ↗
+                </a>
+              </div>
             </div>
-          </v-list-item>
-        </template>
-      </v-list>
-      <div v-else class="pa-4 text-caption text-medium-emphasis">No beats used</div>
+          </div>
+
+          <!-- Audio preview -->
+          <div v-if="beat.audioPreviewUrl" class="px-3 pb-3">
+            <audio controls preload="none" :src="beat.audioPreviewUrl" style="width: 100%; height: 32px;" />
+          </div>
+        </v-card>
+      </div>
+      <div v-else class="text-caption text-medium-emphasis">No beats used</div>
     </v-card-text>
   </v-card>
 </template>
