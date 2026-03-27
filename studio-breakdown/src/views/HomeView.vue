@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject, watch } from 'vue'
+import type { Ref } from 'vue'
 import { useBreakdown } from '@/composables/useBreakdown'
 import TrackOverview from '@/components/TrackOverview.vue'
 import InstrumentsCard from '@/components/InstrumentsCard.vue'
@@ -19,6 +20,17 @@ const { breakdown, loading, error, parsedRevisionId, fetchBreakdown, loadSample 
 
 function handleLoad() {
   fetchBreakdown(trackUrl.value)
+}
+
+// Watch for track selection from the side list
+const selectedTrackUrl = inject<Ref<string>>('selectedTrackUrl')
+if (selectedTrackUrl) {
+  watch(selectedTrackUrl, (url) => {
+    if (url) {
+      trackUrl.value = url
+      fetchBreakdown(url)
+    }
+  })
 }
 </script>
 
