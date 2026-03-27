@@ -18,90 +18,61 @@ function formatDuration(seconds: number): string {
       <v-chip class="ml-2" color="error" size="x-small">{{ beats.length }}</v-chip>
     </v-card-title>
     <v-card-text>
-      <v-row v-if="beats.length">
-        <v-col
-          v-for="beat in beats"
-          :key="beat.id"
-          cols="12"
-          sm="6"
-          lg="4"
-        >
-        <v-card
-          variant="flat"
-          color="surface-variant"
-          rounded="xl"
-          class="overflow-hidden"
-          height="100%"
-        >
-          <!-- Cover image banner -->
-          <div
-            class="position-relative"
-            style="height: 160px;"
-            :style="{ backgroundColor: beat.picture?.color || '#ddd' }"
-          >
-            <v-img
-              v-if="beat.picture?.l || beat.picture?.m"
-              :src="beat.picture.l || beat.picture.m"
-              :alt="beat.name"
-              cover
-              height="160"
-              class="w-100"
-              style="opacity: 0.9;"
-            />
-            <div
-              class="position-absolute w-100 h-100 d-flex align-end"
-              style="top: 0; left: 0; background: linear-gradient(transparent 40%, rgba(0,0,0,0.6));"
-            >
-              <div class="pa-4 text-white">
-                <div class="text-h6 font-weight-bold" style="text-shadow: 0 1px 4px rgba(0,0,0,0.4);">
-                  {{ beat.name }}
-                </div>
-                <div class="text-body-2" style="opacity: 0.9;">
-                  by {{ beat.creatorName }}
+      <div v-if="beats.length" class="d-flex flex-column ga-3">
+        <template v-for="beat in beats" :key="beat.id">
+          <v-card variant="outlined" rounded="lg" class="overflow-hidden">
+            <div class="d-flex">
+              <!-- Cover image -->
+              <div
+                class="flex-shrink-0"
+                style="width: 96px; min-height: 96px;"
+                :style="{ backgroundColor: beat.picture?.color || '#e0e0e0' }"
+              >
+                <v-img
+                  v-if="beat.picture?.m || beat.picture?.s"
+                  :src="beat.picture.m || beat.picture.s"
+                  :alt="beat.name"
+                  cover
+                  width="96"
+                  style="min-height: 100%; object-fit: cover;"
+                />
+                <div v-else class="d-flex align-center justify-center h-100">
+                  <v-icon size="32" color="grey">mdi-music-box</v-icon>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <!-- Info section -->
-          <div class="pa-4">
-            <div class="d-flex flex-column ga-1 mb-3">
-              <v-chip v-if="beat.genre" size="small" variant="tonal" color="error" prepend-icon="mdi-music-note">
-                {{ beat.genre }}
-              </v-chip>
-              <v-chip v-if="beat.key" size="small" variant="tonal" color="secondary" prepend-icon="mdi-music-clef-treble">
-                {{ beat.key }}
-              </v-chip>
-              <v-chip size="small" variant="tonal" color="primary" prepend-icon="mdi-metronome">
-                {{ beat.bpm }} BPM
-              </v-chip>
-              <v-chip size="small" variant="tonal" color="info" prepend-icon="mdi-timer-outline">
-                {{ formatDuration(beat.duration) }}
-              </v-chip>
-            </div>
+              <!-- Info -->
+              <div class="flex-grow-1 pa-3 d-flex flex-column" style="min-width: 0;">
+                <div class="d-flex align-center ga-2 mb-1">
+                  <span class="text-body-2 font-weight-bold text-truncate">{{ beat.name }}</span>
+                  <span class="text-caption text-medium-emphasis flex-shrink-0">by {{ beat.creatorName }}</span>
+                </div>
 
-            <!-- Audio preview -->
-            <div v-if="beat.audioPreviewUrl" class="mb-3">
-              <audio
-                controls
-                preload="none"
-                :src="beat.audioPreviewUrl"
-                style="width: 100%; height: 36px; border-radius: 8px;"
-              />
-            </div>
+                <div class="d-flex flex-wrap ga-1 mb-2">
+                  <v-chip v-if="beat.genre" size="x-small" variant="tonal" color="error">{{ beat.genre }}</v-chip>
+                  <v-chip v-if="beat.key" size="x-small" variant="tonal" color="secondary">{{ beat.key }}</v-chip>
+                  <v-chip size="x-small" variant="tonal" color="primary">{{ beat.bpm }} BPM</v-chip>
+                  <v-chip size="x-small" variant="tonal" color="info">{{ formatDuration(beat.duration) }}</v-chip>
+                </div>
 
-            <a
-              :href="`https://test.bandlab.com/beats/${beat.id}`"
-              target="_blank"
-              class="text-primary text-body-2 font-weight-medium"
-              style="text-decoration: none;"
-            >
-              Open beat ↗
-            </a>
-          </div>
-        </v-card>
-        </v-col>
-      </v-row>
+                <!-- Audio preview -->
+                <div v-if="beat.audioPreviewUrl" class="mb-1">
+                  <audio controls preload="none" :src="beat.audioPreviewUrl" style="width: 100%; height: 28px; border-radius: 6px;" />
+                </div>
+
+                <a
+                  :href="`https://test.bandlab.com/beats/${beat.id}`"
+                  target="_blank"
+                  class="text-primary text-caption font-weight-medium"
+                  style="text-decoration: none;"
+                >
+                  Open beat ↗
+                </a>
+              </div>
+            </div>
+          </v-card>
+        </template>
+      </div>
       <div v-else class="text-caption text-medium-emphasis">No beats used</div>
     </v-card-text>
   </v-card>
