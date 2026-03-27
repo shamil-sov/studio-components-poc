@@ -9,6 +9,7 @@ import EffectPresets2Card from '@/components/EffectPresets2Card.vue'
 import MasteringCard from '@/components/MasteringCard.vue'
 import AutoPitchCard from '@/components/AutoPitchCard.vue'
 import AutoPitch2Card from '@/components/AutoPitch2Card.vue'
+import BeatsCard from '@/components/BeatsCard.vue'
 import PacksCard from '@/components/PacksCard.vue'
 import RawJsonCard from '@/components/RawJsonCard.vue'
 
@@ -93,6 +94,7 @@ function handleLoad() {
   <template v-if="breakdown && !loading">
     <TrackOverview :breakdown="breakdown" />
     <InstrumentsCard :instruments="breakdown.instruments" />
+    <BeatsCard :beats="breakdown.beats ?? []" />
     <EffectsCard :effects="breakdown.effects" />
     <EffectPresetsCard :presets="breakdown.effectPresets" />
     <EffectPresets2Card v-if="breakdown.effectPresets2?.length" :presets="breakdown.effectPresets2" />

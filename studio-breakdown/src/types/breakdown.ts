@@ -78,9 +78,37 @@ export interface SamplerKit {
   slug: string
 }
 
+export interface BeatPicture {
+  xs?: string
+  s?: string
+  m?: string
+  l?: string
+  url?: string
+  isDefault?: boolean
+  color?: string
+}
+
+export interface Beat {
+  id: string
+  name: string
+  creatorName: string
+  genre?: string
+  key?: string
+  bpm: number
+  duration: number
+  audioPreviewUrl?: string
+  previewDuration?: number
+  picture?: BeatPicture
+  purchaseCountInPast30Days?: number
+  moods?: string[]
+  hasSpatialAudio?: boolean
+  createdOn?: string
+}
+
 export interface StudioBreakdown {
   autoPitches: AutoPitch[]
   autoPitches2?: AutoPitch2[]
+  beats?: Beat[]
   bpm: number
   effectPresets: EffectPreset[]
   effectPresets2?: EffectPreset2[]
