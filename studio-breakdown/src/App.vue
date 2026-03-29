@@ -24,6 +24,11 @@ const sampleTracks: SampleTrack[] = [
     desc: '4 effect presets (2 curated + 2 user-created), 10 effects, Bass Boost Mastering',
     url: 'https://test.bandlab.com/track/9eaf0cd8-5898-4530-b8a5-5a866915157e?revId=6a653d9c-490e-4914-9bb1-a67fc2d52232',
   },
+  {
+    label: 'Track with sounds',
+    desc: '5 sounds (2 loops, 3 one-shots) from multiple packs',
+    url: 'https://test.bandlab.com/track/0ca5b458-795d-43a1-9420-7fe533cb5ac2?revId=91b47e6b-a218-4726-a276-b30b38a90bfc',
+  },
 ]
 
 const selectedTrackUrl = ref('')

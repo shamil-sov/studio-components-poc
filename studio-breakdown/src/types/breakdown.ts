@@ -105,6 +105,42 @@ export interface Beat {
   createdOn?: string
 }
 
+export interface SoundFeature {
+  name: string
+  bpm?: number
+  key?: string
+}
+
+export interface SoundPack {
+  id: string
+  name: string
+  slug: string
+  description?: string
+  imageUrl: string
+}
+
+export interface Sound {
+  id: string
+  type: string
+  name: string
+  slug: string
+  duration: number
+  bars?: number
+  audioUrl?: string
+  imageUrl: string
+  pack: SoundPack
+  genres: string[]
+  instruments: string[]
+  characters: string[]
+  features: SoundFeature[]
+}
+
+export interface SoundsUsed {
+  total: number
+  loops: number
+  oneShots: number
+}
+
 export interface StudioBreakdown {
   autoPitches: AutoPitch[]
   autoPitches2?: AutoPitch2[]
@@ -118,6 +154,8 @@ export interface StudioBreakdown {
   loopPacks: LoopPack[]
   mastering: Mastering | null
   samplerKits: SamplerKit[]
+  sounds?: Sound[]
+  soundsUsed?: SoundsUsed
   timeSignature: string
   trackCount: number
 }

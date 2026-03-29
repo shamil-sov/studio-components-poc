@@ -11,6 +11,7 @@ import MasteringCard from '@/components/MasteringCard.vue'
 import AutoPitchCard from '@/components/AutoPitchCard.vue'
 import AutoPitch2Card from '@/components/AutoPitch2Card.vue'
 import BeatsCard from '@/components/BeatsCard.vue'
+import SoundsCard from '@/components/SoundsCard.vue'
 import PacksCard from '@/components/PacksCard.vue'
 import RawJsonCard from '@/components/RawJsonCard.vue'
 
@@ -106,6 +107,7 @@ if (selectedTrackUrl) {
   <template v-if="breakdown && !loading">
     <TrackOverview :breakdown="breakdown" />
     <BeatsCard :beats="breakdown.beats ?? []" />
+    <SoundsCard :sounds="breakdown.sounds ?? []" :sounds-used="breakdown.soundsUsed" />
     <InstrumentsCard :instruments="breakdown.instruments" />
     <EffectsCard :effects="breakdown.effects" />
     <EffectPresetsCard :presets="breakdown.effectPresets" />
