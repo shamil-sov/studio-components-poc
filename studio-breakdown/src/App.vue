@@ -15,19 +15,19 @@ const sampleTracks: SampleTrack[] = [
     url: 'https://test.bandlab.com/track/c1734997-88d7-439d-9b6a-c9cd0133ab1c?revId=7f0083e1-d2de-4b1f-b1d4-2097f6ee099b',
   },
   {
+    label: 'Track with presets',
+    desc: '4 effect presets (2 curated + 2 user-created), 10 effects, Bass Boost Mastering',
+    url: 'https://test.bandlab.com/track/9eaf0cd8-5898-4530-b8a5-5a866915157e?revId=6a653d9c-490e-4914-9bb1-a67fc2d52232',
+  },
+  {
     label: 'Track with beats',
     desc: 'Beat by Velvet, curated effect presets (70s Ballad, 70s Pop)',
     url: 'https://test.bandlab.com/track/9c45c312-44a4-453f-a9b9-10d7e49e0f2e?revId=ab1262ed-09b8-4177-89c6-8f3e04aa451a',
   },
   {
-    label: 'Track with presets (user & curated)',
-    desc: '4 effect presets (2 curated + 2 user-created), 10 effects, Bass Boost Mastering',
-    url: 'https://test.bandlab.com/track/9eaf0cd8-5898-4530-b8a5-5a866915157e?revId=6a653d9c-490e-4914-9bb1-a67fc2d52232',
-  },
-  {
     label: 'Track with sounds',
-    desc: '5 sounds (2 loops, 3 one-shots) from multiple packs',
-    url: 'https://test.bandlab.com/track/0ca5b458-795d-43a1-9420-7fe533cb5ac2?revId=91b47e6b-a218-4726-a276-b30b38a90bfc',
+    desc: 'Track rich with sounds from multiple packs',
+    url: 'https://test.bandlab.com/track/97dcfa45-83d0-4738-919c-87a7f7a29657?revId=aee7d12f-7dc3-4751-8a3f-ecd963993e85',
   },
 ]
 

@@ -51,9 +51,9 @@ function typeIcon(type: string): string {
     </v-card-text>
 
     <v-card-text>
-      <div v-if="sounds.length" class="d-flex flex-wrap ga-3">
+      <div v-if="sounds.length" class="d-flex ga-3" style="overflow-x: auto; padding-bottom: 4px;">
         <template v-for="sound in sounds" :key="sound.id">
-          <v-card variant="outlined" rounded="lg" class="overflow-hidden" style="width: 220px; flex-shrink: 0;">
+          <v-card variant="outlined" rounded="lg" class="overflow-hidden" style="width: 220px; min-width: 220px; flex-shrink: 0;">
             <!-- Sound image -->
             <v-img
               :src="sound.imageUrl"
